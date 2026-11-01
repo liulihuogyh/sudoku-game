@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="免费在线数独游戏，休闲解压，界面简洁美观，支持多种难度，随时随地玩数独">
+  <meta name="keywords" content="数独,数独游戏,在线数独,免费数独,sudoku,数独解压">
+  <title>数独解压时光 - 免费在线数独游戏</title>
+  
+  <!-- Open Graph meta tags for social sharing -->
+  <meta property="og:title" content="数独解压时光 - 免费在线数独游戏">
+  <meta property="og:description" content="简洁美观的在线数独游戏，支持多种难度，休闲解压好帮手">
+  <meta property="og:type" content="website">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧩</text></svg>">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Google AdSense (替换为你的发布商ID) -->
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+</head>
+<body>
+  <!-- 头部 -->
+  <header class="header">
+    <h1 class="logo">
+      <span>🧩</span>
+      <span>数独解压时光</span>
+    </h1>
+    <p class="tagline">简洁 · 优雅 · 随时随地享受数独乐趣</p>
+  </header>
+
+  <!-- 游戏信息栏 -->
+  <div class="game-info">
+    <div class="info-item">
+      <span class="info-label">难度</span>
+      <span class="info-value" id="difficulty-display">简单</span>
+    </div>
+    <div class="info-item">
+      <span class="info-label">用时</span>
+      <span class="info-value" id="timer">0:00</span>
+    </div>
+    <div class="info-item">
+      <span class="info-label">提示</span>
+      <span class="info-value">💡 <span id="hints-count">3</span></span>
+    </div>
+  </div>
+
+  <!-- 游戏容器 -->
+  <div class="game-container">
+    <!-- 顶部按钮 -->
+    <div class="top-buttons">
+      <button class="btn-top" id="btn-new-game">新游戏</button>
+      <button class="btn-top" id="btn-menu">选择难度</button>
+    </div>
+
+    <!-- 数独棋盘 -->
+    <div id="sudoku-board"></div>
+
+    <!-- 控制面板 -->
+    <div class="controls">
+      <!-- 数字按钮 -->
+      <div class="number-buttons">
+        <button class="btn-number" id="btn-1">1</button>
+        <button class="btn-number" id="btn-2">2</button>
+        <button class="btn-number" id="btn-3">3</button>
+        <button class="btn-number" id="btn-4">4</button>
+        <button class="btn-number" id="btn-5">5</button>
+        <button class="btn-number" id="btn-6">6</button>
+        <button class="btn-number" id="btn-7">7</button>
+        <button class="btn-number" id="btn-8">8</button>
+        <button class="btn-number" id="btn-9">9</button>
+      </div>
+
+      <!-- 功能按钮 -->
+      <div class="action-buttons">
+        <button class="btn-action" id="btn-undo">↶ 撤销</button>
+        <button class="btn-action" id="btn-erase">🗑️ 橡皮</button>
+        <button class="btn-action" id="btn-hint">💡 提示</button>
+        <button class="btn-action" id="btn-check">✓ 检查</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 广告位1：横幅广告 -->
+  <div class="ad-container">
+    <!-- Google AdSense 横幅广告代码 -->
+    <!-- 
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="XXXXXXXXXX"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    -->
+    <div class="ad-placeholder">广告位（申请AdSense后替换）</div>
+  </div>
+
+  <!-- 主菜单弹窗 -->
+  <div class="modal" id="main-menu">
+    <div class="modal-content">
+      <span class="close-modal">×</span>
+      <h2>选择难度</h2>
+      <p>选择适合你的难度，开始解压之旅吧！</p>
+      <div class="difficulty-buttons">
+        <button class="difficulty-btn" data-difficulty="easy">
+          🌱 入门 (54个已知数)
+        </button>
+        <button class="difficulty-btn" data-difficulty="medium">
+          🌿 简单 (36个已知数)
+        </button>
+        <button class="difficulty-btn" data-difficulty="hard">
+          🌳 中等 (29个已知数)
+        </button>
+        <button class="difficulty-btn" data-difficulty="expert">
+          🔥 困难 (23个已知数)
+        </button>
+        <button class="difficulty-btn" data-difficulty="master">
+          ⚡ 专家 (17个已知数)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 完成弹窗 -->
+  <div class="modal" id="completion-modal">
+    <div class="modal-content">
+      <h2>🎉 恭喜完成！</h2>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-label">用时</div>
+          <div class="stat-value" id="modal-time">0:00</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">难度</div>
+          <div class="stat-value" id="modal-difficulty">简单</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">提示次数</div>
+          <div class="stat-value" id="modal-hints">0</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">错误次数</div>
+          <div class="stat-value" id="modal-errors">0</div>
+        </div>
+      </div>
+      <button class="difficulty-btn" data-difficulty="medium" id="btn-play-again" style="margin-top: 20px; width: 100%;">
+        🎮 再来一局
+      </button>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/sudoku.js"></script>
+  <script src="js/game.js"></script>
+  <script>
+    // 初始化游戏
+    let game;
+    
+    window.addEventListener('DOMContentLoaded', () => {
+      game = new SudokuGame();
+      
+      // 如果是第一次访问，显示难度选择菜单
+      if (!localStorage.getItem('sudoku-game-state')) {
+        document.getElementById('main-menu').classList.add('show');
+      } else {
+        // 加载之前的游戏
+        game.renderBoard();
+        game.startTimer();
+        game.updateStats();
+      }
+    });
+  </script>
+
+  <!-- 广告位2：页面底部广告 -->
+  <div class="ad-container" style="margin-top: 30px; margin-bottom: 20px;">
+    <!-- Google AdSense 底部广告代码 -->
+    <!-- 
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="XXXXXXXXXX"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    -->
+    <div class="ad-placeholder">广告位（申请AdSense后替换）</div>
+  </div>
+
+  <!-- 页脚 -->
+  <footer style="text-align: center; padding: 20px; color: #A0AEC0; font-size: 0.9rem;">
+    <p>© 2026 数独解压时光 | 用心设计，专注解压</p>
+    <p style="margin-top: 10px;">
+      <a href="#" style="color: #667EEA; text-decoration: none; margin: 0 10px;">关于我们</a>
+      <a href="#" style="color: #667EEA; text-decoration: none; margin: 0 10px;">隐私政策</a>
+      <a href="#" style="color: #667EEA; text-decoration: none; margin: 0 10px;">联系我们</a>
+    </p>
+    <!-- 可选：添加打赏/支持按钮 -->
+    <!-- <p style="margin-top: 15px;">
+      <button onclick="showDonation()" style="padding: 8px 20px; background: #667EEA; color: white; border: none; border-radius: 6px; cursor: pointer;">
+        ☕ 请开发者喝杯咖啡
+      </button>
+    </p> -->
+  </footer>
+
+  <!-- 统计代码（可选，用于分析用户行为） -->
+  <!-- Google Analytics -->
+  <!-- 
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  -->
+</body>
+</html>

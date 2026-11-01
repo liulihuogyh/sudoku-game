@@ -1,0 +1,29 @@
+{
+  "name": "sudoku-relax-game",
+  "version": "1.0.0",
+  "description": "免费在线数独游戏 - 休闲解压，界面简洁美观",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python -m http.server 8000",
+    "build": "echo '纯静态项目，无需构建'",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "sudoku",
+    "数独",
+    "puzzle",
+    "game",
+    "休闲游戏",
+    "益智游戏"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/sudoku-game.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/sudoku-game/issues"
+  },
+  "homepage": "https://your-domain.com"
+}
